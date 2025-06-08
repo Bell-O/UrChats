@@ -1,0 +1,7 @@
+supabase
+pynacl
+argon2-cffi
+cryptography
+python-dotenv
+colorama
+pyfiglet
