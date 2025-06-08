@@ -343,7 +343,7 @@ set PYTHONIOENCODING=utf-8     # Windows
 **Copyright:** [Bell](https://github.com/Bell-O)
 
 
-# UrChats.hee - แอปพลิเคชันแชทเข้ารหัส  
+# UrChats - แอปพลิเคชันแชทเข้ารหัส  
 **Your words, your keys, your world.**  
 **สร้างโดย [Bell](https://github.com/Bell-O)**
 
