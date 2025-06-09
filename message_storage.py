@@ -93,7 +93,8 @@ class MessageStorage:
             success = self._save_messages()
             
             if success:
-                print(f"💾 Message saved with FlightCode encryption")
+                # Silent save - no output to keep chat clean
+                pass
             
             return success
         except Exception as e:
