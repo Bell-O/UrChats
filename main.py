@@ -378,11 +378,13 @@ class Application:
         def display_chat_screen():
             """Display the complete chat screen"""
             clear_screen()
-        
-            # Header
+
+            # Header with online status
             print(Fore.CYAN + "=" * 70)
             print(Fore.CYAN + f"  💬 Chat with {chat_partner['username']}")
-            print(Fore.CYAN + f"  🔒 Messages auto-update every 3 seconds")
+            print(Fore.GREEN + f"  🟢 {chat_partner['username']} is online")
+            print(Fore.GREEN + f"  🟢 FlightCode is Online")
+            print(Fore.CYAN + f"  🔒 End-to-end encrypted • Auto-refresh every 3s")
             print(Fore.CYAN + "=" * 70)
             print(Fore.YELLOW + "Commands: 'quit' to exit, 'clear' to clear, 'refresh' to update")
             print(Fore.CYAN + "-" * 70)
@@ -429,7 +431,7 @@ class Application:
                         new_messages = get_new_messages()
                         if new_messages:
                             # Display new messages immediately
-                            print(f"\n{Fore.GREEN}🔔 New message(s) received!")
+                            print(f"\n{Fore.GREEN}🔔 {len(new_messages)} new message(s)")
                             for msg in new_messages:
                                 timestamp = msg['timestamp']
                                 try:
@@ -454,9 +456,11 @@ class Application:
     
         # Initial display
         display_chat_screen()
-    
-        print(Fore.GREEN + "🚀 Real-time chat started! Messages will appear automatically.")
-        print(Fore.YELLOW + "💡 Tip: New messages will show up every 3 seconds without refreshing.")
+
+        # Show connection status (clean format)
+        print(Fore.GREEN + f"🟢 You are now chatting with {chat_partner['username']}")
+        print(Fore.GREEN + f"🟢 FlightCode is Online")
+        print()
     
         try:
             while not stop_chat.is_set():
@@ -507,12 +511,11 @@ class Application:
                                 chat_partner['public_key'], 
                                 user_input
                             )
-                        
+                            
                             if success:
                                 timestamp = get_timestamp()
-                                print(Fore.GREEN + f"✅ Sent: {user_input}")
-                            
-                                # Save sent message to local storage
+                                
+                                # Save sent message to local storage (silent)
                                 if self.message_storage:
                                     self.message_storage.add_message(
                                         self.user_data['username'],
@@ -520,8 +523,8 @@ class Application:
                                         user_input,
                                         'sent'
                                     )
-                            
-                                # Show sent message immediately
+                                
+                                # Show sent message immediately (clean format)
                                 try:
                                     if 'T' in timestamp:
                                         time_part = timestamp.split('T')[1].split('.')[0]
@@ -529,7 +532,7 @@ class Application:
                                         time_part = timestamp.split(' ')[1] if ' ' in timestamp else timestamp
                                 except:
                                     time_part = timestamp
-                            
+                                
                                 print(Fore.GREEN + f"  [{time_part}] You: {user_input}")
                             else:
                                 print(Fore.RED + "❌ Failed to send message")
@@ -549,7 +552,8 @@ class Application:
             print(Fore.RED + f"❌ Chat interface error: {e}")
         finally:
             stop_chat.set()
-            print(Fore.YELLOW + "\n👋 Chat ended. Returning to main menu...")
+            print(Fore.YELLOW + f"\n🔴 {self.user_data['username']} left the chat")
+            print(Fore.YELLOW + f"👋 Chat with {chat_partner['username']} ended")
             time.sleep(2)
     
     def rotate_key(self):
